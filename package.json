@@ -1,0 +1,29 @@
+{
+  "name": "tgmui-twitter-bot",
+  "version": "0.0.1",
+  "description": "The Good Mobile UI Twitter Bot",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "express": "^4.14.0",
+    "fetch-base64": "^2.1.2",
+    "node-fetch": "^2.2.0",
+    "striptags": "^3.1.1",
+    "twit": "^2.1.0"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "repository": {
+    "url": ""
+  },
+  "keywords": [
+    "node",
+    "twitter",
+    "twitterbot",
+    "bot"
+  ]
+}
