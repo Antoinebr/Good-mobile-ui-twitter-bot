@@ -48,12 +48,21 @@ const sendPost = async () => {
 
   try {
 
+    const unPostedScreenshotID = await api.getUnpostedScreenshotID();
 
-    const screenshot = await api.getScreenshot(90);
+    const screenshot = await api.getScreenshot(unPostedScreenshotID);
 
     const imgB64 = await api.imageToB64(screenshot.url);
 
     const tweet = await postMedia(imgB64, `The Mobile web UI Best practice of the day : ${screenshot.caption} : ${screenshot.link}`);
+
+    if( typeof tweet.id === "number" ){
+
+      const screenshotPosted =  await api.setScreenshotAsPosted(unPostedScreenshotID);
+
+      console.log(`screenshotPosted 💪`, screenshotPosted);
+
+    }
 
     return tweet;
 

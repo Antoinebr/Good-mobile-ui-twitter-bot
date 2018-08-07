@@ -6,6 +6,40 @@ const fetchb64 = require('fetch-base64');
 module.exports = {
 
 
+  getUnpostedScreenshotID : async _ => {
+
+    const data = await fetch(`${process.env.API_URL}/wp-json/twitter-bot/screenshot/random?key=${ process.env.API_KEY }`)
+
+    if (!data.ok) throw new Error(`Can't fetch a random screenshot`);
+
+    const json = await data.json();
+
+    if (typeof json === "undefined") throw new Error(`The random screenshot ID request didn't return any data`);
+
+    return json; 
+
+
+  },
+
+
+
+  setScreenshotAsPosted : async id => {
+
+  
+    const data = await fetch(`${process.env.API_URL}/wp-json/twitter-bot/screenshot/posted?id=${id}&key=${ process.env.API_KEY }`);
+
+    if (!data.ok) throw new Error(`Couldn't set the screenshot ${id} as posted`);
+
+    const json = await data.json();
+
+    if (typeof json === "undefined") throw new Error(`Couldn't set the screenshot ${id} as posted, We expected JSON we got undefined`);
+
+    return json; 
+
+  },
+
+  
+  
   getScreenshot: async id => {
 
     const data = await fetch(`${process.env.API_URL}/wp-json/wp/v2/media?include=${ id }`)
