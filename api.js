@@ -1,12 +1,13 @@
 const fetch = require('node-fetch');
 const striptags = require('striptags');
 const fetchb64 = require('fetch-base64');
+const he = require('he');
 
 
 module.exports = {
 
 
-  getUnpostedScreenshotID : async _ => {
+  getUnpostedScreenshotID: async _ => {
 
     const data = await fetch(`${process.env.API_URL}/wp-json/twitter-bot/screenshot/random?key=${ process.env.API_KEY }`)
 
@@ -16,16 +17,16 @@ module.exports = {
 
     if (typeof json === "undefined") throw new Error(`The random screenshot ID request didn't return any data`);
 
-    return json; 
+    return json;
 
 
   },
 
 
 
-  setScreenshotAsPosted : async id => {
+  setScreenshotAsPosted: async id => {
 
-  
+
     const data = await fetch(`${process.env.API_URL}/wp-json/twitter-bot/screenshot/posted?id=${id}&key=${ process.env.API_KEY }`);
 
     if (!data.ok) throw new Error(`Couldn't set the screenshot ${id} as posted`);
@@ -34,12 +35,12 @@ module.exports = {
 
     if (typeof json === "undefined") throw new Error(`Couldn't set the screenshot ${id} as posted, We expected JSON we got undefined`);
 
-    return json; 
+    return json;
 
   },
 
-  
-  
+
+
   getScreenshot: async id => {
 
     const data = await fetch(`${process.env.API_URL}/wp-json/wp/v2/media?include=${ id }`)
@@ -62,7 +63,7 @@ module.exports = {
     res.link = res.link.replace("https://ui.antoinebrossault.com/", "https://thegoodmobileui.com/#/screenshot/");
 
     return {
-      caption: striptags(res.caption.rendered).trim(),
+      caption: he.decode(striptags(res.caption.rendered).trim()),
       url: res.source_url,
       link: res.link
     }
